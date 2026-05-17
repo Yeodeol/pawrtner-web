@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pawrtner — Confirmación</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* Soft Living tokens (mismos que web_claim / web_profile / web_invite) */
+    :root {
+      --primary: #2D6A4F;
+      --primary-light: #52B788;
+      --primary-dark: #1B4332;
+      --bg: #F8FAF9;
+      --surface: #FFFFFF;
+      --surface-muted: #F1F4F2;
+      --border: #E5E7EB;
+      --text-primary: #1A1A2E;
+      --text-secondary: #6B7280;
+      --text-tertiary: #9CA3AF;
+      --warning: #D97706;
+      --danger: #DC2626;
+      --info: #0891B2;
+
+      --radius-md: 12px;
+      --radius-lg: 14px;
+      --radius-xl: 16px;
+      --radius-xxl: 20px;
+      --radius-pill: 999px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0E1411;
+        --surface: #1A2320;
+        --surface-muted: #222D29;
+        --border: #2A3531;
+        --text-primary: #E8EBE9;
+        --text-secondary: #9AA5A0;
+        --text-tertiary: #6B7670;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); }
+    body {
+      font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page { width: 100%; max-width: 480px; margin: 0 auto; padding-bottom: 40px; }
+
+    .hero {
+      position: relative;
+      background: linear-gradient(155deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 36px 20px 56px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-paws { position: absolute; inset: 0; pointer-events: none; opacity: 0.10; }
+    .hero-paws span { position: absolute; font-size: 28px; color: white; }
+    .hero-paws span:nth-child(1) { top: 14px; left: 18px; transform: rotate(-18deg); }
+    .hero-paws span:nth-child(2) { top: 24px; right: 24px; transform: rotate(22deg); font-size: 22px; }
+    .hero-paws span:nth-child(3) { bottom: 50px; left: 28px; font-size: 20px; transform: rotate(34deg); }
+    .hero-paws span:nth-child(4) { bottom: 70px; right: 18px; font-size: 26px; transform: rotate(-22deg); }
+
+    .brand {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 800;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+      position: relative; z-index: 1;
+    }
+    .hero-icon {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.16);
+      border: 4px solid white;
+      margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 44px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      position: relative; z-index: 1;
+    }
+    .hero-title {
+      font-size: 24px; font-weight: 900;
+      color: white;
+      letter-spacing: -0.3px;
+      position: relative; z-index: 1;
+    }
+    .hero-sub {
+      font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,0.90);
+      margin-top: 6px;
+      position: relative; z-index: 1;
+    }
+
+    .content { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+    .sl-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xxl);
+      padding: 18px 16px;
+    }
+    .sl-card p { font-size: 14px; font-weight: 600; color: var(--text-secondary); line-height: 1.5; }
+
+    .actions { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .sl-btn-primary, .sl-btn-soft, .sl-btn-store {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px;
+      height: 52px; padding: 0 20px;
+      border: none; border-radius: var(--radius-lg);
+      font-family: inherit; font-weight: 800; font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.12s ease;
+    }
+    .sl-btn-primary {
+      background: var(--primary); color: white;
+      box-shadow: 0 6px 16px color-mix(in srgb, var(--primary) 32%, transparent);
+    }
+    .sl-btn-soft {
+      background: color-mix(in srgb, var(--primary) 12%, transparent);
+      color: var(--primary);
+    }
+    .sl-btn-store {
+      background: #111; color: white;
+      font-size: 13px; font-weight: 700;
+      gap: 12px; height: 56px;
+    }
+    .sl-btn-primary:active, .sl-btn-soft:active, .sl-btn-store:active { transform: translateY(1px); }
+    .sl-btn-store .store-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+    .sl-btn-store .store-text small { font-size: 10px; font-weight: 600; opacity: 0.85; letter-spacing: 0.4px; }
+    .sl-btn-store .store-text strong { font-size: 14px; font-weight: 800; }
+
+    .sl-tinted {
+      border-radius: var(--radius-xxl);
+      padding: 14px 16px;
+      display: flex; gap: 12px;
+      align-items: flex-start;
+    }
+    .sl-tinted-warning {
+      background: color-mix(in srgb, var(--warning) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--warning) 28%, transparent);
+      color: var(--warning);
+    }
+    .sl-tinted-danger {
+      background: color-mix(in srgb, var(--danger) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--danger) 28%, transparent);
+      color: var(--danger);
+    }
+    .sl-tinted-icon { font-size: 20px; flex-shrink: 0; line-height: 1.2; }
+    .sl-tinted-body { flex: 1; }
+    .sl-tinted-title { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
+    .sl-tinted-text  { font-size: 13px; font-weight: 600; opacity: 0.92; }
+
+    .page-footer {
+      text-align: center;
+      padding: 20px 16px 0;
+      font-size: 11px; font-weight: 700;
+      color: var(--text-tertiary);
+      letter-spacing: 0.4px;
+    }
+    .page-footer span { color: var(--primary); font-weight: 800; }
+
+    .state-screen {
+      min-height: 60vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 48px 24px; text-align: center;
+      gap: 12px;
+    }
+    .state-emoji { font-size: 56px; }
+    .state-screen h2 { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+    .state-screen p  { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <main class="page" id="page">
+    <section class="hero">
+      <div class="hero-paws">
+        <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
+      </div>
+      <div class="brand">🐾 PAWRTNER</div>
+      <div class="hero-icon" id="heroIcon">✉️</div>
+      <h1 class="hero-title" id="heroTitle">Confirmando...</h1>
+      <p class="hero-sub" id="heroSub">Un momento por favor</p>
+    </section>
+
+    <section class="content" id="content">
+      <div class="sl-card">
+        <p id="bodyText">Procesando tu solicitud...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    Hecho con 💚 por <span>Pawrtner</span>
+  </footer>
+
+  <script>
+    // Package name del Android app (definido en build.gradle).
+    const ANDROID_PACKAGE = 'app.pawrtner.mobile';
+    const PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`;
+    const APP_STORE_URL = 'https://apps.apple.com/cl/app/pawrtner/id000000000';
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
+    }
+
+    function getFragmentParams() {
+      // Supabase devuelve los tokens en el fragment (#) tras validar el OTP.
+      // Formato success:  #access_token=...&refresh_token=...&type=recovery|signup|invite
+      // Formato error:    #error=access_denied&error_code=otp_expired&error_description=...
+      const hash = window.location.hash.startsWith('#')
+        ? window.location.hash.substring(1)
+        : window.location.hash;
+      const queryParams = new URLSearchParams(window.location.search);
+      const fragParams = new URLSearchParams(hash);
+      // Si hay error_code en query (caso fallback), tambien lo tomamos.
+      return {
+        accessToken: fragParams.get('access_token'),
+        refreshToken: fragParams.get('refresh_token'),
+        type: fragParams.get('type'),
+        error: fragParams.get('error') || queryParams.get('error'),
+        errorCode: fragParams.get('error_code') || queryParams.get('error_code'),
+        errorDesc: fragParams.get('error_description') || queryParams.get('error_description'),
+        rawFragment: hash,
+      };
+    }
+
+    function isMobile() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+    function isAndroid() { return /Android/i.test(navigator.userAgent); }
+    function isIOS() { return /iPhone|iPad|iPod/i.test(navigator.userAgent); }
+
+    function attemptDeepLink(fragment) {
+      // La app maneja el deep link via App Links en Android (intent-filter en
+      // AndroidManifest apunta a yeodeol.github.io/pawrtner-auth). En iOS
+      // sera Universal Links cuando se publique a App Store.
+      //
+      // Si la app esta instalada y los App Links verificados, esta URL la
+      // intercepta Android antes de que renderice el HTML. Pero por si llego
+      // aca, intentamos disparar el scheme custom como fallback.
+      if (!fragment) return;
+      const url = `pawrtner://auth-callback#${fragment}`;
+      // Use a hidden iframe to avoid leaving the page if scheme not registered.
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = url;
+      document.body.appendChild(iframe);
+      setTimeout(() => { try { iframe.remove(); } catch (_) {} }, 1200);
+    }
+
+    function renderSuccess(type, fragment) {
+      const typeLabels = {
+        recovery: { title: 'Cambia tu contraseña', sub: 'Vuelve a la app Pawrtner para continuar', body: 'Tu identidad fue confirmada. Abre la app Pawrtner en tu telefono para terminar de cambiar tu contraseña.' },
+        signup: { title: 'Cuenta confirmada', sub: 'Tu correo quedó verificado', body: '¡Listo! Tu cuenta esta confirmada. Vuelve a la app Pawrtner y inicia sesion para empezar.' },
+        invite: { title: 'Invitacion aceptada', sub: 'Bienvenido a Pawrtner', body: 'Vuelve a la app Pawrtner para terminar de configurar tu cuenta.' },
+        magiclink: { title: 'Sesion iniciada', sub: 'Vuelve a la app', body: 'Tu sesion fue iniciada. Abre la app Pawrtner para continuar.' },
+        email_change: { title: 'Correo actualizado', sub: 'Cambio confirmado', body: 'Tu nueva direccion de correo quedo confirmada.' },
+      };
+      const info = typeLabels[type] || { title: 'Confirmacion completada', sub: 'Vuelve a la app', body: 'Tu accion fue confirmada. Abre la app Pawrtner para continuar.' };
+
+      document.getElementById('heroIcon').textContent = '✅';
+      document.getElementById('heroTitle').textContent = info.title;
+      document.getElementById('heroSub').textContent = info.sub;
+      document.getElementById('content').innerHTML = `
+        <div class="sl-card">
+          <p>${escapeHtml(info.body)}</p>
+        </div>
+        ${isMobile() ? `
+          <div class="actions">
+            <a class="sl-btn-primary" href="pawrtner://auth-callback#${escapeHtml(fragment)}">Abrir en Pawrtner</a>
+            ${isAndroid() ? `<a class="sl-btn-store" href="${PLAY_URL}"><span class="store-icon">▶</span><div class="store-text"><small>DESCARGAR EN</small><strong>Google Play</strong></div></a>` : ''}
+            ${isIOS() ? `<a class="sl-btn-store" href="${APP_STORE_URL}"><span class="store-icon">🍎</span><div class="store-text"><small>DESCARGAR EN</small><strong>App Store</strong></div></a>` : ''}
+          </div>
+        ` : `
+          <div class="sl-tinted sl-tinted-warning">
+            <div class="sl-tinted-icon">📱</div>
+            <div class="sl-tinted-body">
+              <div class="sl-tinted-title">Estas en escritorio</div>
+              <div class="sl-tinted-text">Para terminar el flujo, abre este mismo correo en tu telefono donde tengas Pawrtner instalada.</div>
+            </div>
+          </div>
+        `}
+      `;
+
+      if (isMobile()) {
+        attemptDeepLink(fragment);
+      }
+    }
+
+    function renderError(errorCode, errorDesc) {
+      const errorTitles = {
+        otp_expired: { emoji: '⏱️', title: 'Link expirado', sub: 'Solicita uno nuevo', body: 'El link de este correo ya no es valido. Esto puede pasar si tomaste mas de 1 hora en abrirlo, o si tu cliente de correo lo abrio primero por seguridad. Vuelve a la app Pawrtner y solicita un nuevo correo.' },
+        access_denied: { emoji: '🚫', title: 'Acceso denegado', sub: 'No se pudo confirmar', body: 'No pudimos validar este link. Solicita uno nuevo desde la app Pawrtner.' },
+        invalid_request: { emoji: '⚠️', title: 'Solicitud no valida', sub: 'Intenta de nuevo', body: 'Algo no esta bien con este link. Solicita uno nuevo desde la app.' },
+      };
+      const info = errorTitles[errorCode] || {
+        emoji: '⚠️',
+        title: 'No se pudo procesar',
+        sub: 'Intenta nuevamente',
+        body: errorDesc || 'Algo salio mal con la confirmacion. Vuelve a la app Pawrtner e intenta de nuevo.'
+      };
+
+      document.getElementById('heroIcon').textContent = info.emoji;
+      document.getElementById('heroTitle').textContent = info.title;
+      document.getElementById('heroSub').textContent = info.sub;
+      document.getElementById('content').innerHTML = `
+        <div class="sl-tinted sl-tinted-danger">
+          <div class="sl-tinted-icon">${info.emoji}</div>
+          <div class="sl-tinted-body">
+            <div class="sl-tinted-title">${escapeHtml(info.title)}</div>
+            <div class="sl-tinted-text">${escapeHtml(info.body)}</div>
+          </div>
+        </div>
+        <div class="actions">
+          ${isAndroid() ? `<a class="sl-btn-store" href="${PLAY_URL}"><span class="store-icon">▶</span><div class="store-text"><small>DESCARGAR EN</small><strong>Google Play</strong></div></a>` : ''}
+          ${isIOS() ? `<a class="sl-btn-store" href="${APP_STORE_URL}"><span class="store-icon">🍎</span><div class="store-text"><small>DESCARGAR EN</small><strong>App Store</strong></div></a>` : ''}
+        </div>
+      `;
+    }
+
+    function renderIdle() {
+      // No hay tokens ni errores en la URL — el usuario abrio la raiz.
+      document.getElementById('heroIcon').textContent = '🐾';
+      document.getElementById('heroTitle').textContent = 'Pawrtner Auth';
+      document.getElementById('heroSub').textContent = 'Esta pagina solo se abre desde un correo';
+      document.getElementById('content').innerHTML = `
+        <div class="sl-card">
+          <p>Esta pagina recibe los links de confirmacion de correo y recuperacion de contrasena de Pawrtner. No tiene contenido propio — si llegaste aca directamente, vuelve a la app Pawrtner.</p>
+        </div>
+        ${isAndroid() ? `<a class="sl-btn-store" href="${PLAY_URL}"><span class="store-icon">▶</span><div class="store-text"><small>DESCARGAR EN</small><strong>Google Play</strong></div></a>` : ''}
+      `;
+    }
+
+    function init() {
+      const params = getFragmentParams();
+      if (params.error || params.errorCode) {
+        renderError(params.errorCode, params.errorDesc);
+        return;
+      }
+      if (params.accessToken) {
+        renderSuccess(params.type, params.rawFragment);
+        return;
+      }
+      renderIdle();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

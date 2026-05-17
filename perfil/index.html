@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pawrtner — Perfil de Mascota</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Soft Living tokens ─────────────────────────────────────────── */
+    :root {
+      --primary: #2D6A4F;
+      --primary-light: #52B788;
+      --primary-dark: #1B4332;
+
+      --bg: #F8FAF9;
+      --bg-elevated: #FFFFFF;
+      --surface: #FFFFFF;
+      --surface-muted: #F1F4F2;
+      --surface-sunken: #EBEFEC;
+      --border: #E5E7EB;
+      --border-strong: #CBD5D1;
+      --text-primary: #1A1A2E;
+      --text-secondary: #6B7280;
+      --text-tertiary: #9CA3AF;
+      --success: #2D6A4F;
+      --warning: #D97706;
+      --danger: #DC2626;
+      --info: #0891B2;
+
+      --radius-sm: 10px;
+      --radius-md: 12px;
+      --radius-lg: 14px;
+      --radius-xl: 16px;
+      --radius-xxl: 20px;
+      --radius-card: 24px;
+      --radius-pill: 999px;
+
+      --shadow-sm: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-md: 0 8px 30px rgba(0,0,0,0.10);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0E1411;
+        --bg-elevated: #161D19;
+        --surface: #1A2320;
+        --surface-muted: #222D29;
+        --surface-sunken: #131814;
+        --border: #2A3531;
+        --border-strong: #3A4541;
+        --text-primary: #E8EBE9;
+        --text-secondary: #9AA5A0;
+        --text-tertiary: #6B7670;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); }
+    body {
+      font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────────── */
+    .page {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding-bottom: 32px;
+    }
+    @media (min-width: 768px) {
+      .page { max-width: 580px; }
+    }
+
+    /* ── Hero (curved header) ───────────────────────────────────────── */
+    .hero {
+      position: relative;
+      background: linear-gradient(155deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 32px 20px 56px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-paws {
+      position: absolute; inset: 0;
+      pointer-events: none;
+      opacity: 0.10;
+    }
+    .hero-paws span {
+      position: absolute;
+      font-size: 28px;
+      color: white;
+    }
+    .hero-paws span:nth-child(1) { top: 14px; left: 18px; transform: rotate(-18deg); }
+    .hero-paws span:nth-child(2) { top: 24px; right: 24px; transform: rotate(22deg); font-size: 22px; }
+    .hero-paws span:nth-child(3) { top: 70px; left: 60px; font-size: 18px; transform: rotate(8deg); }
+    .hero-paws span:nth-child(4) { top: 100px; right: 40px; font-size: 24px; transform: rotate(-12deg); }
+    .hero-paws span:nth-child(5) { bottom: 40px; left: 28px; font-size: 20px; transform: rotate(34deg); }
+    .hero-paws span:nth-child(6) { bottom: 60px; right: 18px; font-size: 26px; transform: rotate(-22deg); }
+
+    .hero-top {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      position: relative; z-index: 1;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 800;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: 0.5px;
+    }
+
+    .pet-avatar {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.16);
+      border: 4px solid white;
+      margin: 0 auto 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 56px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      position: relative; z-index: 1;
+    }
+    .pet-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    .pet-name {
+      font-size: 28px; font-weight: 900;
+      color: white;
+      letter-spacing: -0.3px;
+      position: relative; z-index: 1;
+    }
+    .pet-subtitle {
+      font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,0.90);
+      margin-top: 4px;
+      position: relative; z-index: 1;
+    }
+
+    .verified-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px;
+      background: rgba(255,255,255,0.18);
+      color: white;
+      border-radius: var(--radius-pill);
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 0.6px;
+      backdrop-filter: blur(8px);
+    }
+    .verified-pill::after { content: "✓"; font-weight: 900; }
+
+    .header-curve {
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      width: 100%; height: 32px;
+      display: block;
+    }
+
+    /* ── Content ────────────────────────────────────────────────────── */
+    .content {
+      padding: 16px;
+      display: flex; flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── SoftCard ───────────────────────────────────────────────────── */
+    .sl-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xxl);
+      padding: 16px;
+    }
+    .sl-card h3 {
+      font-size: 12px; font-weight: 800;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* ── TintedCard ─────────────────────────────────────────────────── */
+    .sl-tinted {
+      border-radius: var(--radius-xxl);
+      padding: 14px 16px;
+      display: flex; gap: 12px;
+      align-items: flex-start;
+    }
+    .sl-tinted-danger {
+      background: color-mix(in srgb, var(--danger) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--danger) 28%, transparent);
+      color: var(--danger);
+    }
+    .sl-tinted-warning {
+      background: color-mix(in srgb, var(--warning) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--warning) 28%, transparent);
+      color: var(--warning);
+    }
+    .sl-tinted-success {
+      background: color-mix(in srgb, var(--success) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--success) 28%, transparent);
+      color: var(--success);
+    }
+    .sl-tinted-primary {
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--primary-light) 18%, transparent),
+        color-mix(in srgb, var(--primary) 8%, transparent));
+      border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+      color: var(--primary-dark);
+    }
+    .sl-tinted-icon { font-size: 20px; flex-shrink: 0; line-height: 1.2; }
+    .sl-tinted-body { flex: 1; }
+    .sl-tinted-title { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
+    .sl-tinted-text  { font-size: 13px; font-weight: 600; opacity: 0.92; }
+
+    /* ── Pills ──────────────────────────────────────────────────────── */
+    .sl-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .sl-pill-success { background: color-mix(in srgb, var(--success) 14%, transparent); color: var(--success); }
+    .sl-pill-warning { background: color-mix(in srgb, var(--warning) 14%, transparent); color: var(--warning); }
+    .sl-pill-danger  { background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); }
+    .sl-pill-primary { background: color-mix(in srgb, var(--primary) 14%, transparent); color: var(--primary); }
+    .sl-pill-info    { background: color-mix(in srgb, var(--info) 14%, transparent); color: var(--info); }
+    .sl-pill-neutral { background: var(--surface-muted); color: var(--text-secondary); }
+
+    /* ── Buttons ────────────────────────────────────────────────────── */
+    .sl-btn-primary, .sl-btn-soft {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 6px;
+      height: 44px; padding: 0 18px;
+      border: none; border-radius: var(--radius-lg);
+      font-family: inherit; font-weight: 800; font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .sl-btn-primary {
+      background: var(--primary); color: white;
+      box-shadow: 0 6px 16px color-mix(in srgb, var(--primary) 32%, transparent);
+    }
+    .sl-btn-soft {
+      background: color-mix(in srgb, var(--primary) 12%, transparent);
+      color: var(--primary);
+    }
+    .sl-btn-primary:active, .sl-btn-soft:active { transform: translateY(1px); }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .actions > * { flex: 1; min-width: 0; }
+
+    /* ── Datos esenciales (lista label | value) ─────────────────────── */
+    .data-list {
+      display: flex; flex-direction: column;
+    }
+    .data-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-row:last-child { border-bottom: none; }
+    .data-row .data-label {
+      font-size: 13px; font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .data-row .data-value {
+      font-size: 14px; font-weight: 700;
+      color: var(--text-primary);
+      text-align: right;
+      margin: 0;
+    }
+
+    .notes-box {
+      background: var(--surface-muted);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 13px; font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 10px;
+      display: flex; gap: 8px; align-items: flex-start;
+    }
+
+    /* ── Contact row ────────────────────────────────────────────────── */
+    .contact-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0;
+    }
+    .contact-row + .contact-row {
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .contact-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+    .contact-address {
+      font-size: 12px; font-weight: 600;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    /* Action bar arriba del card de contactos (Llamar duenio / WhatsApp) */
+    .contact-actions-primary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .contact-actions-primary .sl-btn-primary,
+    .contact-actions-primary .sl-btn-soft {
+      height: 56px;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+      padding: 8px;
+    }
+    .contact-actions-primary .sl-btn-soft {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .contact-info { flex: 1; min-width: 0; }
+    .contact-name {
+      font-size: 14px; font-weight: 800;
+      color: var(--text-primary);
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    }
+    .contact-phone-text {
+      font-size: 12px; font-weight: 600;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ── Allergy / Treatment / Medication rows ──────────────────────── */
+    .item-list {
+      display: flex; flex-direction: column;
+      gap: 8px;
+    }
+    .allergy-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: var(--surface-muted);
+    }
+    .allergy-row.severe   { background: color-mix(in srgb, var(--danger) 10%, transparent); }
+    .allergy-row.moderate { background: color-mix(in srgb, var(--warning) 10%, transparent); }
+    .allergy-row.mild     { background: color-mix(in srgb, var(--success) 10%, transparent); }
+    .allergy-icon { font-size: 18px; }
+    .allergy-info { flex: 1; min-width: 0; }
+    .allergy-name { font-size: 14px; font-weight: 800; color: var(--text-primary); }
+    .allergy-meta { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 2px; }
+
+    .treatment-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      background: var(--surface);
+    }
+    .treatment-top {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; margin-bottom: 6px;
+    }
+    .treatment-condition { font-size: 14px; font-weight: 800; color: var(--text-primary); }
+    .treatment-desc { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+    .progress-row { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+    .progress-bar-bg {
+      flex: 1; height: 6px;
+      background: color-mix(in srgb, var(--primary) 12%, transparent);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+    .progress-bar-fill { height: 100%; background: var(--primary); border-radius: var(--radius-pill); }
+    .treatment-dates { font-size: 11px; font-weight: 600; color: var(--text-tertiary); margin-top: 8px; }
+
+    .med-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .med-row:last-child { border-bottom: none; }
+    .med-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--primary) 12%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .med-info { flex: 1; min-width: 0; }
+    .med-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .med-name { font-size: 14px; font-weight: 800; color: var(--text-primary); }
+    .med-detail { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 2px; }
+    .stock-low { font-size: 11px; font-weight: 700; color: var(--warning); margin-top: 4px; }
+
+    /* ── History ────────────────────────────────────────────────────── */
+    .history-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .history-row:last-child { border-bottom: none; }
+    .history-emoji {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--surface-muted);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0;
+    }
+    .history-body { flex: 1; min-width: 0; }
+    .history-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+    .history-next  { font-size: 11px; font-weight: 600; color: var(--primary); margin-top: 2px; }
+    .history-date  { font-size: 12px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    .page-footer {
+      text-align: center;
+      padding: 20px 16px 0;
+      font-size: 11px; font-weight: 700;
+      color: var(--text-tertiary);
+      letter-spacing: 0.4px;
+    }
+    .page-footer span { color: var(--primary); font-weight: 800; }
+
+    /* ── Loading / Error ────────────────────────────────────────────── */
+    .state-screen {
+      min-height: 60vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 48px 24px; text-align: center;
+      gap: 12px;
+    }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .state-screen h2 { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+    .state-screen p  { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+    .state-emoji { font-size: 56px; }
+  </style>
+</head>
+<body>
+  <main class="page" id="page">
+    <div class="state-screen">
+      <div class="spinner"></div>
+      <p>Cargando perfil...</p>
+    </div>
+  </main>
+
+  <script>
+    const SUPABASE_URL = 'https://czpfboiqtefmefvmvmsx.supabase.co';
+    const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cGZib2lxdGVmbWVmdm12bXN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1MDg5MTYsImV4cCI6MjA5MTA4NDkxNn0.kuGlOWVIS4P81ablwFHY2_WEoUij2PX71fHIPHNiESg';
+
+    const SPECIES_LABEL = { dog:'Perro', cat:'Gato', bird:'Ave', rabbit:'Conejo', fish:'Pez', reptile:'Reptil', other:'Otro' };
+    const SPECIES_EMOJI = { dog:'🐕', cat:'🐈', bird:'🐦', rabbit:'🐇', fish:'🐠', reptile:'🦎', other:'🐾' };
+    const TYPE_EMOJI    = { vaccine:'💉', vetVisit:'🩺', grooming:'✂️', deworm:'💊', medication:'🩹', surgery:'🔬', exam:'📋', other:'📌' };
+    const ALLERGY_TYPE  = { food:'Comida', medication:'Medicamento', environmental:'Ambiental', other:'Otro' };
+    const SEV_EMOJI     = { mild:'🟢', moderate:'🟡', severe:'🔴' };
+    const SEV_LABEL     = { mild:'Leve', moderate:'Moderada', severe:'Severa' };
+    const STATUS_LABEL  = { active:'Activo', completed:'Completado', paused:'Pausado', archived:'Archivado' };
+
+    function getPetId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id') || window.location.pathname.split('/').filter(Boolean).pop();
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
+    }
+
+    function formatDate(d) {
+      if (!d) return '';
+      const [y, m, day] = d.split('-');
+      return `${day}/${m}/${y}`;
+    }
+
+    function calcAge(birthDate) {
+      if (!birthDate) return '';
+      const birth = new Date(birthDate), now = new Date();
+      let months = (now.getFullYear() - birth.getFullYear()) * 12 + now.getMonth() - birth.getMonth();
+      if (months < 0) months = 0;
+      const years = Math.floor(months / 12);
+      return years >= 1 ? `${years} ${years === 1 ? 'año' : 'años'}` : `${months} ${months === 1 ? 'mes' : 'meses'}`;
+    }
+
+    async function fetchSafe(endpoint) {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
+          headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` }
+        });
+        if (!res.ok) return [];
+        return res.json();
+      } catch (_) { return []; }
+    }
+
+    function renderError(msg) {
+      document.getElementById('page').innerHTML = `
+        <div class="state-screen">
+          <div class="state-emoji">🐾</div>
+          <h2>${escapeHtml(msg)}</h2>
+          <p>Verifica que el código QR sea válido.</p>
+        </div>`;
+    }
+
+    function getInitials(name) {
+      if (!name) return '?';
+      const parts = String(name).trim().split(/\s+/).slice(0, 2);
+      return parts.map(p => p.charAt(0).toUpperCase()).join('') || '?';
+    }
+
+    function renderContactRow(person, roleLabel, { showActions = false } = {}) {
+      const name = escapeHtml(person.display_name || 'Sin nombre');
+      const phone = (person.phone_number || '').trim();
+      const phoneClean = phone.replace(/\s+/g, '');
+      const wa = phoneClean.replace(/[^\d+]/g, '');
+      const initials = escapeHtml(getInitials(person.display_name));
+      const address = (person.address || '').trim();
+
+      const actions = (showActions && phone) ? `
+        <div class="actions">
+          <a class="sl-btn-primary" href="tel:${escapeHtml(phoneClean)}">📞 Llamar</a>
+          <a class="sl-btn-soft" href="https://wa.me/${escapeHtml(wa)}" target="_blank" rel="noopener">WhatsApp</a>
+        </div>` : '';
+
+      return `
+        <div class="contact-row">
+          <div class="contact-avatar">${initials}</div>
+          <div class="contact-info">
+            <div class="contact-name">
+              ${name}
+              <span class="sl-pill sl-pill-primary">${escapeHtml(roleLabel)}</span>
+            </div>
+            ${phone ? `<div class="contact-phone-text">${escapeHtml(phone)}</div>` : ''}
+            ${address ? `<div class="contact-address">${escapeHtml(address)}</div>` : ''}
+          </div>
+        </div>
+        ${actions}
+      `;
+    }
+
+    function renderPrimaryContactActions(person) {
+      const phone = (person?.phone_number || '').trim();
+      if (!phone) return '';
+      const phoneClean = phone.replace(/\s+/g, '');
+      const wa = phoneClean.replace(/[^\d+]/g, '');
+      return `
+        <div class="contact-actions-primary">
+          <a class="sl-btn-primary" href="tel:${escapeHtml(phoneClean)}">
+            <span style="font-size:18px;">📞</span>
+            <span>Llamar dueño</span>
+          </a>
+          <a class="sl-btn-soft" href="https://wa.me/${escapeHtml(wa)}" target="_blank" rel="noopener">
+            <span style="font-size:18px;">💬</span>
+            <span>WhatsApp</span>
+          </a>
+        </div>`;
+    }
+
+    /**
+     * Loguea un escaneo del QR cuando la mascota esta en modo "Se busca".
+     * Pide geo del navegador (opt-in del usuario). Si la persona niega o
+     * el navegador no soporta geo, igual loguea el escaneo sin coords.
+     * Best-effort: cualquier error se ignora silencioso.
+     */
+    function logScanWithGeo(petId) {
+      const send = (lat, lng, accuracy) => {
+        const body = {
+          pet_id: petId,
+          user_agent: (navigator.userAgent || '').slice(0, 500),
+        };
+        if (typeof lat === 'number') body.lat = lat;
+        if (typeof lng === 'number') body.lng = lng;
+        if (typeof accuracy === 'number') body.accuracy_m = accuracy;
+
+        fetch(`${SUPABASE_URL}/functions/v1/log-pet-scan`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: ANON_KEY,
+            Authorization: `Bearer ${ANON_KEY}`,
+          },
+          body: JSON.stringify(body),
+          keepalive: true,
+        }).catch(() => {/* ignore */});
+      };
+
+      if (!('geolocation' in navigator)) {
+        send();
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => send(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy),
+        () => send(),
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+      );
+    }
+
+    async function load() {
+      const petId = getPetId();
+      if (!petId || petId.length < 10) { renderError('ID de mascota no válido'); return; }
+
+      const [pets, records, treatments, medications, allergies] = await Promise.all([
+        fetchSafe(`pets?id=eq.${petId}&select=*`),
+        fetchSafe(`medical_records?pet_id=eq.${petId}&select=*&order=date.desc&limit=5`),
+        fetchSafe(`treatments?pet_id=eq.${petId}&select=*&status=eq.active&order=created_at.desc`),
+        fetchSafe(`medications?pet_id=eq.${petId}&select=*&order=created_at.desc`),
+        fetchSafe(`allergies?pet_id=eq.${petId}&select=*&order=severity.desc`)
+      ]);
+
+      if (!pets.length) { renderError('Mascota no encontrada'); return; }
+
+      const p = pets[0];
+
+      // Owner + co-owners
+      const [ownerProfiles, coOwnerShares] = await Promise.all([
+        fetchSafe(`profiles?id=eq.${p.user_id}&select=id,display_name,phone_number`),
+        fetchSafe(`pet_shares?pet_id=eq.${petId}&role=eq.co_owner&status=eq.accepted&select=shared_with_user_id`)
+      ]);
+      const owner = ownerProfiles[0] || null;
+
+      const coOwnerIds = (coOwnerShares || []).map(s => s.shared_with_user_id).filter(Boolean);
+      let coOwners = [];
+      if (coOwnerIds.length) {
+        const idsList = coOwnerIds.map(id => `"${id}"`).join(',');
+        coOwners = await fetchSafe(`profiles?id=in.(${idsList})&select=id,display_name,phone_number`);
+      }
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      const activeMeds = medications.filter(m => !m.end_date || m.end_date >= todayStr);
+      activeMeds.sort((a, b) => (b.is_chronic ? 1 : 0) - (a.is_chronic ? 1 : 0));
+
+      const sevOrder = { severe: 0, moderate: 1, mild: 2 };
+      allergies.sort((a, b) => (sevOrder[a.severity] ?? 3) - (sevOrder[b.severity] ?? 3));
+      const severeAllergies = allergies.filter(a => a.severity === 'severe');
+
+      const emoji   = SPECIES_EMOJI[p.species] || '🐾';
+      const speciesLabel = SPECIES_LABEL[p.species] || p.species;
+      // Subtitulo: raza · edad · sexo (cuando aplique)
+      const subtitleParts = [];
+      if (p.breed) subtitleParts.push(escapeHtml(p.breed));
+      else subtitleParts.push(escapeHtml(speciesLabel));
+      if (p.birth_date) subtitleParts.push(calcAge(p.birth_date));
+      if (p.sex) subtitleParts.push(p.sex === 'male' ? 'Macho' : 'Hembra');
+      const subtitle = subtitleParts.join(' · ');
+
+      const avatarHtml = p.photo_url
+        ? `<img src="${escapeHtml(p.photo_url)}" alt="${escapeHtml(p.name)}" />`
+        : emoji;
+
+      // ── Hero ────────────────────────────────────────────────────────
+      const heroHtml = `
+        <section class="hero">
+          <div class="hero-paws" aria-hidden="true">
+            <span>🐾</span><span>🐾</span><span>🐾</span>
+            <span>🐾</span><span>🐾</span><span>🐾</span>
+          </div>
+          <div class="hero-top">
+            <div class="brand">🐾 PAWRTNER · ID</div>
+            <div class="verified-pill">VERIFICADA</div>
+          </div>
+          <div class="pet-avatar">${avatarHtml}</div>
+          <div class="pet-name">${escapeHtml(p.name)} 🐾</div>
+          <div class="pet-subtitle">${subtitle}</div>
+          <svg class="header-curve" viewBox="0 0 100 4" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 0 C 33 4 67 4 100 0 V 4 H 0 Z" fill="var(--bg)"/>
+          </svg>
+        </section>
+      `;
+
+      // ── Severe allergy banner ──────────────────────────────────────
+      const severeBanner = severeAllergies.length ? `
+        <div class="sl-tinted sl-tinted-danger">
+          <div class="sl-tinted-icon">⚠️</div>
+          <div class="sl-tinted-body">
+            <div class="sl-tinted-title">ALERGIA SEVERA</div>
+            <div class="sl-tinted-text">${severeAllergies.map(a => escapeHtml(a.allergen)).join(' · ')} · evitar contacto</div>
+          </div>
+        </div>` : '';
+
+      // ── Banner "Se busca" + log del escaneo ───────────────────────
+      const lostBanner = p.is_lost ? `
+        <div class="sl-tinted sl-tinted-danger" style="background:#FEE2E2;border:2px solid #DC2626;">
+          <div class="sl-tinted-icon">🔍</div>
+          <div class="sl-tinted-body">
+            <div class="sl-tinted-title" style="color:#991B1B;">SE BUSCA — MASCOTA PERDIDA</div>
+            <div class="sl-tinted-text" style="color:#7F1D1D;">El dueño está buscando a ${escapeHtml(p.name)}. Si la encontraste, contactalo abajo. Tu ubicación ayuda a recuperarla.</div>
+          </div>
+        </div>` : '';
+
+      if (p.is_lost) {
+        // Disparar log con geo (best-effort, no bloquea el render).
+        logScanWithGeo(p.id);
+      }
+
+      // ── Primary contact actions (Llamar dueño / WhatsApp) ─────────
+      const primaryActionsHtml = owner ? renderPrimaryContactActions(owner) : '';
+
+      // ── Datos esenciales (lista vertical label | value) ───────────
+      const dataRows = [];
+      if (p.microchip) {
+        dataRows.push(`
+          <div class="data-row">
+            <span class="data-label">Microchip</span>
+            <span class="data-value">${escapeHtml(p.microchip)}</span>
+          </div>`);
+      }
+      if (p.weight_kg) {
+        dataRows.push(`
+          <div class="data-row">
+            <span class="data-label">Peso</span>
+            <span class="data-value">${escapeHtml(p.weight_kg)} kg</span>
+          </div>`);
+      }
+      if (p.color) {
+        dataRows.push(`
+          <div class="data-row">
+            <span class="data-label">Color</span>
+            <span class="data-value">${escapeHtml(p.color)}</span>
+          </div>`);
+      }
+      if (typeof p.is_neutered === 'boolean') {
+        dataRows.push(`
+          <div class="data-row">
+            <span class="data-label">${p.sex === 'male' ? 'Castrado' : 'Esterilizada'}</span>
+            <span class="data-value">${p.is_neutered ? 'Sí' : 'No'}</span>
+          </div>`);
+      }
+
+      const datosHtml = dataRows.length ? `
+        <div class="sl-card">
+          <h3>Datos esenciales</h3>
+          <div class="data-list">${dataRows.join('')}</div>
+          ${p.notes ? `<div class="notes-box"><span>📝</span><span>${escapeHtml(p.notes)}</span></div>` : ''}
+        </div>` : '';
+
+      // ── Contactos ──────────────────────────────────────────────────
+      // Las acciones primarias (Llamar/WhatsApp) ya estan arriba (debajo del
+      // banner de alergia), asi que aqui solo mostramos info, sin botones.
+      const hasOwner = owner && (owner.display_name || owner.phone_number);
+      const hasCoOwners = coOwners && coOwners.length > 0;
+      let ownerCardHtml = '';
+      let coOwnersHtml = '';
+      if (hasOwner) {
+        const sexRoleLabel = (owner.display_name || '').toLowerCase().endsWith('a') ? 'Mi dueña' : 'Mi dueño';
+        ownerCardHtml = `
+          <div class="sl-card">
+            <h3>${escapeHtml(sexRoleLabel)}</h3>
+            ${renderContactRow(owner, 'Dueño')}
+          </div>`;
+      }
+      if (hasCoOwners) {
+        const rows = coOwners.map(co => renderContactRow(co, 'Co-dueño', { showActions: true }));
+        coOwnersHtml = `
+          <div class="sl-card">
+            <h3>Otros contactos</h3>
+            ${rows.join('')}
+          </div>`;
+      }
+
+      // ── Alergias ───────────────────────────────────────────────────
+      const allergiesHtml = allergies.length ? `
+        <div class="sl-card">
+          <h3>⚠️ Alergias</h3>
+          <div class="item-list">
+            ${allergies.map(a => {
+              const sev = a.severity || 'mild';
+              const type = ALLERGY_TYPE[a.allergy_type] || a.allergy_type;
+              const pillClass = sev === 'severe' ? 'sl-pill-danger' : sev === 'moderate' ? 'sl-pill-warning' : 'sl-pill-success';
+              return `
+                <div class="allergy-row ${escapeHtml(sev)}">
+                  <span class="allergy-icon">${SEV_EMOJI[sev] || '🟢'}</span>
+                  <div class="allergy-info">
+                    <div class="allergy-name">${escapeHtml(a.allergen)}</div>
+                    <div class="allergy-meta">${escapeHtml(type)}${a.symptoms ? ' · ' + escapeHtml(a.symptoms) : ''}</div>
+                  </div>
+                  <span class="sl-pill ${pillClass}">${SEV_LABEL[sev] || sev}</span>
+                </div>`;
+            }).join('')}
+          </div>
+        </div>` : '';
+
+      // ── Tratamientos ───────────────────────────────────────────────
+      const treatmentsHtml = treatments.length ? `
+        <div class="sl-card">
+          <h3>🏥 Tratamientos activos</h3>
+          <div class="item-list">
+            ${treatments.map(t => {
+              const pct = t.session_count > 0 ? Math.round((t.completed_sessions / t.session_count) * 100) : 0;
+              const dates = t.start_date
+                ? `📅 Inicio: ${formatDate(t.start_date)}${t.expected_end_date ? ' · Fin est.: ' + formatDate(t.expected_end_date) : ''}`
+                : '';
+              return `
+                <div class="treatment-card">
+                  <div class="treatment-top">
+                    <div class="treatment-condition">${escapeHtml(t.condition)}</div>
+                    <span class="sl-pill sl-pill-primary">${STATUS_LABEL[t.status] || escapeHtml(t.status)}</span>
+                  </div>
+                  ${t.description ? `<div class="treatment-desc">${escapeHtml(t.description)}</div>` : ''}
+                  <div class="progress-row">
+                    <div class="progress-bar-bg">
+                      <div class="progress-bar-fill" style="width:${pct}%"></div>
+                    </div>
+                    <span>${t.completed_sessions}/${t.session_count}</span>
+                  </div>
+                  ${dates ? `<div class="treatment-dates">${dates}</div>` : ''}
+                </div>`;
+            }).join('')}
+          </div>
+        </div>` : '';
+
+      // ── Medicamentos ───────────────────────────────────────────────
+      const medsHtml = activeMeds.length ? `
+        <div class="sl-card">
+          <h3>💊 Medicamentos activos</h3>
+          ${activeMeds.map(m => {
+            const chronicBadge = m.is_chronic
+              ? '<span class="sl-pill sl-pill-success">🔁 Crónico</span>'
+              : '';
+            const rem = m.remaining_doses;
+            const stockLine = (rem !== null && rem !== undefined && rem <= 3)
+              ? `<div class="stock-low">⚠️ Quedan ${escapeHtml(rem)} dosis</div>`
+              : '';
+            return `
+              <div class="med-row">
+                <div class="med-icon">💊</div>
+                <div class="med-info">
+                  <div class="med-name-row">
+                    <span class="med-name">${escapeHtml(m.name)}</span>
+                    ${chronicBadge}
+                  </div>
+                  <div class="med-detail">${escapeHtml(m.dosage)} · ${escapeHtml(m.frequency)}${m.prescribed_by ? ' · Dr. ' + escapeHtml(m.prescribed_by) : ''}</div>
+                  ${stockLine}
+                </div>
+              </div>`;
+          }).join('')}
+        </div>` : '';
+
+      // ── Historial ──────────────────────────────────────────────────
+      const historyHtml = records.length ? `
+        <div class="sl-card">
+          <h3>📋 Historial reciente</h3>
+          ${records.map(r => `
+            <div class="history-row">
+              <div class="history-emoji">${TYPE_EMOJI[r.type] || '📌'}</div>
+              <div class="history-body">
+                <div class="history-title">${escapeHtml(r.title)}</div>
+                ${r.next_due_date ? `<div class="history-next">📅 Próximo: ${formatDate(r.next_due_date)}</div>` : ''}
+              </div>
+              <div class="history-date">${formatDate(r.date)}</div>
+            </div>`).join('')}
+        </div>` : '';
+
+      // ── Render ─────────────────────────────────────────────────────
+      document.getElementById('page').innerHTML = `
+        ${heroHtml}
+        <div class="content">
+          ${lostBanner}
+          ${severeBanner}
+          ${primaryActionsHtml}
+          ${ownerCardHtml}
+          ${datosHtml}
+          ${coOwnersHtml}
+          ${allergiesHtml}
+          ${treatmentsHtml}
+          ${medsHtml}
+          ${historyHtml}
+        </div>
+        <footer class="page-footer">
+          <span>Pawrtner</span> · pawrtner.com
+        </footer>
+      `;
+    }
+
+    load();
+  </script>
+</body>
+</html>

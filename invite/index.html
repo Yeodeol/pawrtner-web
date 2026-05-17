@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pawrtner — Invitación de mascota</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Soft Living tokens (mismos que web_profile) ─────────────── */
+    :root {
+      --primary: #2D6A4F;
+      --primary-light: #52B788;
+      --primary-dark: #1B4332;
+      --bg: #F8FAF9;
+      --surface: #FFFFFF;
+      --surface-muted: #F1F4F2;
+      --border: #E5E7EB;
+      --text-primary: #1A1A2E;
+      --text-secondary: #6B7280;
+      --text-tertiary: #9CA3AF;
+      --warning: #D97706;
+      --danger: #DC2626;
+      --info: #0891B2;
+
+      --radius-md: 12px;
+      --radius-lg: 14px;
+      --radius-xl: 16px;
+      --radius-xxl: 20px;
+      --radius-pill: 999px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0E1411;
+        --surface: #1A2320;
+        --surface-muted: #222D29;
+        --border: #2A3531;
+        --text-primary: #E8EBE9;
+        --text-secondary: #9AA5A0;
+        --text-tertiary: #6B7670;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); }
+    body {
+      font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      background: linear-gradient(155deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 36px 20px 56px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-paws { position: absolute; inset: 0; pointer-events: none; opacity: 0.10; }
+    .hero-paws span { position: absolute; font-size: 28px; color: white; }
+    .hero-paws span:nth-child(1) { top: 14px; left: 18px; transform: rotate(-18deg); }
+    .hero-paws span:nth-child(2) { top: 24px; right: 24px; transform: rotate(22deg); font-size: 22px; }
+    .hero-paws span:nth-child(3) { bottom: 50px; left: 28px; font-size: 20px; transform: rotate(34deg); }
+    .hero-paws span:nth-child(4) { bottom: 70px; right: 18px; font-size: 26px; transform: rotate(-22deg); }
+
+    .brand {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 800;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+      position: relative; z-index: 1;
+    }
+    .hero-icon {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.16);
+      border: 4px solid white;
+      margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 44px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      position: relative; z-index: 1;
+    }
+    .hero-title {
+      font-size: 24px; font-weight: 900;
+      color: white;
+      letter-spacing: -0.3px;
+      position: relative; z-index: 1;
+    }
+    .hero-sub {
+      font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,0.90);
+      margin-top: 6px;
+      position: relative; z-index: 1;
+    }
+    .header-curve {
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      width: 100%; height: 32px;
+      display: block;
+    }
+
+    /* ── Cards ────────────────────────────────────────────────────── */
+    .content {
+      padding: 16px;
+      display: flex; flex-direction: column;
+      gap: 14px;
+    }
+    .sl-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xxl);
+      padding: 18px 16px;
+    }
+    .sl-card h3 {
+      font-size: 12px; font-weight: 800;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+    .sl-card p { font-size: 14px; font-weight: 600; color: var(--text-secondary); line-height: 1.5; }
+
+    .info-list {
+      display: flex; flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .info-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface-muted);
+      border-radius: var(--radius-md);
+    }
+    .info-emoji { font-size: 18px; }
+    .info-text { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+
+    /* ── Buttons ──────────────────────────────────────────────────── */
+    .actions { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .sl-btn-primary, .sl-btn-soft, .sl-btn-store {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px;
+      height: 52px; padding: 0 20px;
+      border: none; border-radius: var(--radius-lg);
+      font-family: inherit; font-weight: 800; font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .sl-btn-primary {
+      background: var(--primary); color: white;
+      box-shadow: 0 6px 16px color-mix(in srgb, var(--primary) 32%, transparent);
+    }
+    .sl-btn-soft {
+      background: color-mix(in srgb, var(--primary) 12%, transparent);
+      color: var(--primary);
+    }
+    .sl-btn-store {
+      background: #111; color: white;
+      font-size: 13px; font-weight: 700;
+      gap: 12px; height: 56px;
+    }
+    .sl-btn-primary:active, .sl-btn-soft:active, .sl-btn-store:active { transform: translateY(1px); }
+    .sl-btn-store .store-icon { font-size: 22px; }
+    .sl-btn-store .store-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+    .sl-btn-store .store-text small { font-size: 10px; font-weight: 600; opacity: 0.85; letter-spacing: 0.4px; }
+    .sl-btn-store .store-text strong { font-size: 14px; font-weight: 800; }
+
+    /* ── Pills ────────────────────────────────────────────────────── */
+    .sl-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .sl-pill-primary { background: color-mix(in srgb, var(--primary) 14%, transparent); color: var(--primary); }
+    .sl-pill-info    { background: color-mix(in srgb, var(--info) 14%, transparent); color: var(--info); }
+
+    /* ── Token box ────────────────────────────────────────────────── */
+    .token-box {
+      background: var(--surface-muted);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px; font-weight: 700;
+      color: var(--text-secondary);
+      word-break: break-all;
+      margin-top: 8px;
+    }
+
+    /* ── Footer ───────────────────────────────────────────────────── */
+    .page-footer {
+      text-align: center;
+      padding: 20px 16px 0;
+      font-size: 11px; font-weight: 700;
+      color: var(--text-tertiary);
+      letter-spacing: 0.4px;
+    }
+    .page-footer span { color: var(--primary); font-weight: 800; }
+
+    /* ── State ────────────────────────────────────────────────────── */
+    .state-screen {
+      min-height: 60vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 48px 24px; text-align: center;
+      gap: 12px;
+    }
+    .state-emoji { font-size: 56px; }
+    .state-screen h2 { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+    .state-screen p  { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <main class="page" id="page"></main>
+
+  <script>
+    // Package name del Android app (definido en build.gradle).
+    const ANDROID_PACKAGE = 'app.pawrtner.mobile';
+    const PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`;
+    const APP_STORE_URL = 'https://apps.apple.com/cl/app/pawrtner/id000000000';
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
+    }
+
+    function getToken() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('token') || '';
+    }
+
+    function buildOpenInAppHref() {
+      // Si llegamos a este HTML es porque la app no esta instalada (gracias
+      // a autoVerify=true en el AndroidManifest, Android intercepta antes
+      // de cargar este HTML cuando la app SI esta). Por eso el boton apunta
+      // a la store correspondiente — si esta el intent fallback abre Play
+      // y al usuario le queda claro el siguiente paso.
+      const ua = navigator.userAgent || '';
+      const isAndroid = /android/i.test(ua);
+      const isIOS = /iphone|ipad|ipod/i.test(ua);
+      if (isAndroid) {
+        const fullUrl = window.location.href;
+        return `intent://${fullUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=${ANDROID_PACKAGE};S.browser_fallback_url=${encodeURIComponent(PLAY_URL)};end`;
+      }
+      if (isIOS) return APP_STORE_URL;
+      return PLAY_URL;
+    }
+
+    function renderError(emoji, title, body) {
+      document.getElementById('page').innerHTML = `
+        <div class="state-screen">
+          <div class="state-emoji">${emoji}</div>
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(body)}</p>
+        </div>`;
+    }
+
+    function render() {
+      const token = getToken();
+      if (!token || token.length < 10) {
+        renderError('🔗', 'Link inválido', 'Verifica que el enlace que recibiste esté completo.');
+        return;
+      }
+
+      const heroHtml = `
+        <section class="hero">
+          <div class="hero-paws" aria-hidden="true">
+            <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
+          </div>
+          <div class="brand">🐾 PAWRTNER</div>
+          <div class="hero-icon">🐾</div>
+          <div class="hero-title">Te invitaron a compartir una mascota</div>
+          <div class="hero-sub">Abre Pawrtner para ver y aceptar</div>
+          <svg class="header-curve" viewBox="0 0 100 4" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 0 C 33 4 67 4 100 0 V 4 H 0 Z" fill="var(--bg)"/>
+          </svg>
+        </section>
+      `;
+
+      const aboutCard = `
+        <div class="sl-card">
+          <h3>¿Qué es esto?</h3>
+          <p>Alguien que cuida una mascota en Pawrtner te invitó para que veas o gestiones su ficha:
+             historial médico, vacunas, tratamientos, alergias y más. Vas a poder ayudar con su cuidado
+             desde tu propia cuenta.</p>
+          <div class="info-list">
+            <div class="info-row">
+              <span class="info-emoji">📋</span>
+              <span class="info-text">Historial médico y próximas vacunas</span>
+            </div>
+            <div class="info-row">
+              <span class="info-emoji">💊</span>
+              <span class="info-text">Medicamentos y dosis al día</span>
+            </div>
+            <div class="info-row">
+              <span class="info-emoji">⚠️</span>
+              <span class="info-text">Alergias y notas importantes</span>
+            </div>
+          </div>
+        </div>`;
+
+      const openCard = `
+        <div class="sl-card">
+          <h3>1. Abrir Pawrtner</h3>
+          <p>Si ya tenés la app instalada, abrila y pegá el código de invitación en
+             <strong>Perfil → Tengo un código de invitación</strong>.</p>
+          <div class="actions">
+            <a class="sl-btn-primary" href="${buildOpenInAppHref()}">Abrir Pawrtner</a>
+          </div>
+          <div class="token-box">${escapeHtml(token)}</div>
+        </div>`;
+
+      const storesCard = `
+        <div class="sl-card">
+          <h3>2. ¿No tenés la app?</h3>
+          <p>Descargala gratis. Después abrí este mismo enlace para aceptar la invitación.</p>
+          <div class="actions">
+            <a class="sl-btn-store" href="${PLAY_URL}" target="_blank" rel="noopener">
+              <span class="store-icon">▶</span>
+              <span class="store-text">
+                <small>DISPONIBLE EN</small>
+                <strong>Google Play</strong>
+              </span>
+            </a>
+            <a class="sl-btn-store" href="${APP_STORE_URL}" target="_blank" rel="noopener">
+              <span class="store-icon"></span>
+              <span class="store-text">
+                <small>DISPONIBLE EN</small>
+                <strong>App Store</strong>
+              </span>
+            </a>
+          </div>
+        </div>`;
+
+      document.getElementById('page').innerHTML = `
+        ${heroHtml}
+        <div class="content">
+          ${aboutCard}
+          ${openCard}
+          ${storesCard}
+        </div>
+        <footer class="page-footer">
+          <span>Pawrtner</span> · pawrtner.com
+        </footer>`;
+    }
+
+    render();
+  </script>
+</body>
+</html>
