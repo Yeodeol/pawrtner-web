@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.pawrtner.mobile",
+      "sha256_cert_fingerprints": [
+        "D5:10:B3:CC:18:2F:8F:A3:86:50:E3:37:A1:51:91:72:EC:29:15:51:E5:0E:20:C0:58:01:4C:B2:11:4D:BE:2E"
+      ]
+    }
+  }
+]
