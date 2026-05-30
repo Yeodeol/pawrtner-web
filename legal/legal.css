@@ -1,0 +1,192 @@
+/* Pawrtner — estilos compartidos de las páginas legales.
+   Marca: verde #2D6A4F. Tipografía Nunito (con fallback a system). */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --green: #2D6A4F;
+  --green-dark: #1B4332;
+  --bg: #F8FAF9;
+  --surface: #FFFFFF;
+  --text: #1A1A2E;
+  --text-soft: #4B5563;
+  --border: #E5E7EB;
+  --warn-bg: #FFF7ED;
+  --warn-border: #FED7AA;
+  --max: 820px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Header */
+.legal-header {
+  background: var(--green);
+  color: #fff;
+}
+.legal-header__inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.brand {
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.legal-nav {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.legal-nav a {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+.legal-nav a:hover,
+.legal-nav a[aria-current="page"] {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Contenido */
+main {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+}
+.legal-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px clamp(20px, 5vw, 48px);
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+}
+
+.legal-content h1 {
+  font-size: clamp(24px, 5vw, 32px);
+  line-height: 1.2;
+  color: var(--green-dark);
+  margin: 0 0 8px;
+}
+.legal-content h2 {
+  font-size: 20px;
+  color: var(--green-dark);
+  margin: 32px 0 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.legal-content h2:first-of-type { border-top: none; padding-top: 0; }
+.legal-content h3 {
+  font-size: 16px;
+  color: var(--text);
+  margin: 20px 0 4px;
+}
+.legal-content p { margin: 10px 0; color: var(--text-soft); }
+.legal-content strong { color: var(--text); }
+.legal-content a { color: var(--green); }
+
+.legal-content ul { margin: 10px 0; padding-left: 22px; color: var(--text-soft); }
+.legal-content li { margin: 6px 0; }
+
+.legal-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+.legal-content blockquote {
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: 10px;
+  color: #7c2d12;
+}
+.legal-content blockquote p { color: inherit; margin: 4px 0; }
+
+.legal-content code {
+  background: #f1f5f4;
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Tablas */
+.legal-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.legal-content th,
+.legal-content td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.legal-content th { background: #f1f5f4; color: var(--text); font-weight: 800; }
+.legal-content td { color: var(--text-soft); }
+
+/* Fallback si marked.js no carga: texto plano legible */
+.md-fallback {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+  color: var(--text-soft);
+  font-size: 15px;
+}
+
+/* Footer */
+.legal-footer {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 20px 48px;
+  color: var(--text-soft);
+  font-size: 13px;
+  text-align: center;
+}
+.legal-footer a { color: var(--green); }
+
+/* Índice */
+.legal-cards { display: grid; gap: 16px; }
+.legal-card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .15s, box-shadow .15s;
+}
+.legal-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 4px 14px rgba(45, 106, 79, 0.10);
+}
+.legal-card h2 { margin: 0 0 4px; font-size: 18px; color: var(--green-dark); border: none; padding: 0; }
+.legal-card p { margin: 0; }
+.legal-lead { color: var(--text-soft); margin: 0 0 24px; }
