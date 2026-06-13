@@ -37,7 +37,7 @@
   <script type="text/markdown" id="md">
 # Política de Privacidad de Pawrtner
 
-**Última actualización:** 30 de mayo de 2026
+**Última actualización:** 13 de junio de 2026
 
 ---
 
@@ -68,7 +68,12 @@ Recopilamos únicamente los datos necesarios para prestar el Servicio:
 ### 3.1. Datos de la cuenta y de identificación
 - Nombre o nombre de usuario, correo electrónico, número de teléfono.
 - Fotografía de perfil (avatar), si el Usuario la proporciona.
-- Identificadores de autenticación (incluido inicio de sesión con Google).
+- Identificadores de autenticación. Cuando el Usuario elige **iniciar sesión con
+  Google**, accedemos **únicamente** a su nombre, correo electrónico y foto de
+  perfil pública de Google, con el solo fin de autenticarlo y crear su cuenta. **No
+  solicitamos acceso** a Gmail, Google Calendar, Contactos ni a ningún otro dato de
+  Google, y **no almacenamos la contraseña** de su cuenta de Google. El Usuario
+  puede revocar este acceso desde https://myaccount.google.com/permissions.
 
 ### 3.2. Datos de ubicación
 - Ubicación aproximada o comuna, y/o ubicación GPS del dispositivo **cuando el
@@ -98,6 +103,24 @@ Recopilamos únicamente los datos necesarios para prestar el Servicio:
 - Pawrtner **no recopila ni almacena datos de tarjetas**. Las compras y
   suscripciones se procesan a través de **Google Play**, que actúa como
   intermediario de pago.
+
+### 3.7. Permisos del dispositivo
+
+La aplicación móvil solicita ciertos permisos del sistema **solo cuando el Usuario
+usa la función asociada** y con la finalidad exclusiva de prestarla. El Usuario
+puede otorgarlos o revocarlos en cualquier momento desde la configuración de su
+dispositivo; revocarlos puede limitar la función correspondiente.
+
+| Permiso | Finalidad |
+|---|---|
+| **Cámara** | Tomar fotografías de la mascota o del Usuario para el perfil o el historial. |
+| **Galería / fotos** | Seleccionar y cargar imágenes de la mascota o comprobantes de pago. |
+| **Ubicación** | Buscar Profesionales cercanos. Se solicita en el momento de uso y **no realiza seguimiento en segundo plano**. |
+| **Notificaciones** | Mostrar recordatorios de medicamentos, comidas, vacunas y avisos de citas. |
+| **Archivos / almacenamiento** | Adjuntar documentos al historial médico y exportar/guardar el PDF de la ficha. |
+
+Pawrtner **no** solicita acceso al calendario del dispositivo, micrófono, contactos
+ni mensajes.
 
 ---
 
@@ -157,6 +180,19 @@ Al utilizar la Plataforma, el Usuario es informado de esta circunstancia. Pawrtn
 adopta medidas razonables para que dichos proveedores ofrezcan niveles adecuados de
 protección.
 
+### 7.1. Profesionales del marketplace
+
+Cuando el Usuario **reserva o asiste a una atención con un Profesional** a través de
+la Plataforma, **autoriza expresamente** que la información de su mascota necesaria
+para la atención (datos de identificación, historial médico, alergias, tratamientos,
+medicamentos y antecedentes relevantes) sea **comunicada a dicho Profesional**. El
+Profesional actúa como **responsable independiente** respecto del tratamiento que
+realice de esos datos para prestar su servicio; Pawrtner no dirige ni controla dicho
+tratamiento. En el caso de mascotas registradas por un Profesional para clientes que
+aún no tienen cuenta ("walk-ins"), el Profesional declara contar con la autorización
+del Dueño para ingresar sus datos de contacto, y el Dueño podrá vincular o solicitar
+la eliminación de dichos datos al instalar la aplicación.
+
 Asimismo, podremos divulgar datos cuando sea requerido por **ley, autoridad
 competente o resolución judicial**.
 
@@ -173,11 +209,24 @@ salvo aquellos que debamos conservar por exigencia legal.
 
 ## 9. Seguridad
 
-Aplicamos medidas técnicas y organizativas razonables para proteger los datos
-(control de acceso por usuario mediante reglas de seguridad a nivel de base de
-datos, cifrado en tránsito, almacenamiento de archivos privados con enlaces
-temporales firmados, etc.). Ningún sistema es completamente infalible; el Usuario
-contribuye a la seguridad protegiendo sus credenciales.
+Aplicamos medidas técnicas y organizativas razonables para proteger los datos, entre
+ellas:
+- **Cifrado en tránsito** de las comunicaciones (TLS).
+- **Cifrado en reposo** de la base de datos y los archivos, provisto por nuestra
+  infraestructura.
+- **Control de acceso a nivel de fila** (cada Usuario solo accede a sus datos y a
+  los compartidos con él) y permisos por rol.
+- **Almacenamiento de archivos en buckets privados** accesibles solo mediante
+  enlaces firmados de duración limitada.
+
+Ningún sistema es completamente infalible; el Usuario contribuye a la seguridad
+protegiendo sus credenciales.
+
+**Notificación de incidentes.** Ante una vulneración de seguridad que afecte datos
+personales y pueda implicar un riesgo para los titulares, Pawrtner adoptará las
+medidas correctivas necesarias e **informará a los Usuarios afectados y a la
+autoridad competente** en los términos y plazos que establezca la legislación
+aplicable (en particular, la Ley N° 21.719).
 
 ---
 
@@ -192,9 +241,11 @@ derechos de:
 - **Portabilidad** de sus datos.
 - **Bloqueo** del tratamiento, cuando corresponda.
 
-Para ejercerlos, el Usuario puede escribir a **privacidad@pawrtner.app**.
-Responderemos en los plazos que la ley establezca. El Usuario también podrá
-reclamar ante la **Agencia de Protección de Datos Personales** cuando ésta se
+Para ejercerlos, el Usuario puede escribir a **privacidad@pawrtner.app**,
+indicando el derecho que desea ejercer y los antecedentes que permitan
+identificarlo. Responderemos a la brevedad y, en todo caso, **dentro de un plazo
+máximo de 20 días hábiles** o el menor que establezca la ley. El Usuario también
+podrá reclamar ante la **Agencia de Protección de Datos Personales** cuando ésta se
 encuentre en funcionamiento.
 
 ---
@@ -229,8 +280,8 @@ técnicos para funciones como las notificaciones.
 ## 14. Cambios a esta Política
 
 Podremos actualizar esta Política. Los cambios sustanciales se informarán a través
-de la Plataforma o por correo electrónico, indicando la fecha de última
-actualización.
+de la Plataforma o por correo electrónico **con una antelación mínima de 15 días
+corridos a su entrada en vigencia**, indicando la fecha de última actualización.
 
 ---
 
